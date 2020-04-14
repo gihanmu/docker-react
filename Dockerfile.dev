@@ -1,0 +1,20 @@
+FROM node:alpine
+
+#specify a working directory in the container to which our app will be copied
+WORKDIR '/app'
+
+#copy package json first and run npm install. This will prevent triggering of npm install when app files are changed
+#npm install will only be triggered only when package.json is changed
+#alias docker="winpty docker"
+COPY package.json .
+
+RUN npm install
+
+#copy rest of the files in the app
+COPY . .
+
+CMD [ "npm", "run", "start" ]
+
+
+#Docker volumes : Working command
+#docker run -p 3000:3000 -v /app/node_modules -v ${pwd}:/app CONTAINER_ID
